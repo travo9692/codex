@@ -3,7 +3,7 @@
 Demo ứng dụng đặt lịch khám bệnh và chăm sóc khách hàng qua Zalo Mini App.
 
 ## 📦 Tech stack
- - ⚙️ Backend: Node.js (native HTTP server)
+- ⚙️ Backend: ExpressJS + MongoDB (Mongoose)
 - 💻 Frontend: React + Vite (Zalo Mini App SDK)
 - 🔔 Scheduler + ZNS API: Nhắc lịch tự động qua Zalo
 
@@ -13,15 +13,16 @@ Demo ứng dụng đặt lịch khám bệnh và chăm sóc khách hàng qua Zal
 
 ```
 .
-├── backend/                # Node.js API
+
+├── backend/                # ExpressJS API
 │   ├── src/
+│   │   ├── routes/         # API routes
 │   │   ├── controllers/    # API logic
-│   │   ├── models/         # JSON models
+│   │   ├── models/         # Mongoose schemas
 │   │   ├── scheduler/      # Cron jobs nhắc lịch
-│   │   ├── utils/          # File helpers
-│   │   ├── data/           # JSON storage
-│   │   └── app.js          # Server setup
-│   └── package.json
+│   │   ├── services/       # ZNS/Zalo Messaging services
+│   │   └── app.js          # Express setup
+│   ├── .env.example        # Mẫu biến môi trường
 ├── frontend/               # React Mini App (Zalo SDK)
 │   ├── src/
 │   └── vite.config.js
@@ -38,10 +39,13 @@ git clone https://github.com/your-org/zalo-miniapp-healthcare.git
 cd zalo-miniapp-healthcare
 ```
 
-### 2. Chạy backend
+
+### 2. Cài đặt backend
 ```bash
 cd backend
-node src/app.js
+cp .env.example .env
+npm install
+npm run dev
 ```
 
 ### 3. Cài đặt frontend
@@ -119,6 +123,7 @@ Sử dụng Zalo ZNS API hoặc OA Chat API:
 6. **Thiết lập scheduler** để gửi thông báo tự động, có thể dùng `pm2` hoặc `cron`.
 7. **Cấu hình webhook** trong Zalo Developer Console trỏ về API để nhận sự kiện.
 
+=======
 ---
 
 ## 📬 Liên hệ
