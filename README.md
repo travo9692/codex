@@ -110,6 +110,17 @@ Sử dụng Zalo ZNS API hoặc OA Chat API:
 - Frontend tương thích Zalo SDK v2
 - Scheduler độc lập, có thể mở rộng gửi thông báo theo ngày/tuần
 
+## 🚀 Kế hoạch triển khai
+
+1. **Chuẩn bị môi trường**: Thuê VPS hoặc dùng nền tảng cloud (Railway, Render ...)
+   và cài đặt Node.js cùng MongoDB hoặc Docker.
+2. **Clone mã nguồn** và tạo file `.env` giống `.env.example` cho backend.
+3. **Cài đặt phụ thuộc** cho cả hai thư mục `backend/` và `frontend/` rồi build project.
+4. **Chạy backend** bằng `node` hoặc `pm2`, đảm bảo cổng API được mở.
+5. **Triển khai frontend** lên dịch vụ tĩnh (Vercel, Netlify) hoặc trực tiếp trên VPS.
+6. **Thiết lập scheduler** để gửi thông báo tự động, có thể dùng `pm2` hoặc `cron`.
+7. **Cấu hình webhook** trong Zalo Developer Console trỏ về API để nhận sự kiện.
+
 ---
 
 ## 📬 Liên hệ
