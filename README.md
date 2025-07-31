@@ -39,12 +39,13 @@ git clone https://github.com/your-org/zalo-miniapp-healthcare.git
 cd zalo-miniapp-healthcare
 ```
 
-
 ### 2. Cài đặt backend
 ```bash
 cd backend
 cp .env.example .env
 npm install
+npm start
+=======
 npm run dev
 ```
 
@@ -123,7 +124,6 @@ Sử dụng Zalo ZNS API hoặc OA Chat API:
 6. **Thiết lập scheduler** để gửi thông báo tự động, có thể dùng `pm2` hoặc `cron`.
 7. **Cấu hình webhook** trong Zalo Developer Console trỏ về API để nhận sự kiện.
 
-=======
 ---
 
 ## 📬 Liên hệ

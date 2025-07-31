@@ -1,21 +1,10 @@
-const { readData, writeData } = require('../utils/storage');
+const mongoose = require('mongoose');
 
-const FILE = 'patients.json';
+const patientSchema = new mongoose.Schema({
+  zalo_id: { type: String, required: true, unique: true },
+  name: String,
+  phone: String,
+  dob: String
+});
 
-function getAll() {
-  return readData(FILE);
-}
-
-function findById(zaloId) {
-  const data = readData(FILE);
-  return data.find(p => p.zalo_id === zaloId);
-}
-
-function create(patient) {
-  const data = readData(FILE);
-  data.push(patient);
-  writeData(FILE, data);
-  return patient;
-}
-
-module.exports = { getAll, findById, create };
+module.exports = mongoose.model('Patient', patientSchema);

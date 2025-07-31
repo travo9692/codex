@@ -1,20 +1,26 @@
 const Appointment = require('../models/appointment');
 
-function createAppointment(req, res, body) {
-  const appt = JSON.parse(body || '{}');
-  if (!appt.zalo_id || !appt.appointment_time) {
-    res.writeHead(400);
-    return res.end('Missing fields');
+async function createAppointment(req, res) {
+  const apptData = req.body || {};
+  if (!apptData.zalo_id || !apptData.appointment_time) {
+    return res.status(400).send('Missing fields');
   }
-  Appointment.create(appt);
-  res.writeHead(201, { 'Content-Type': 'application/json' });
-  res.end(JSON.stringify(appt));
+  try {
+    const appt = await Appointment.create(apptData);
+    res.status(201).json(appt);
+  } catch (err) {
+    res.status(500).send('Server error');
+  }
 }
 
-function listAppointments(req, res, zaloId) {
-  const list = Appointment.getByZaloId(zaloId);
-  res.writeHead(200, { 'Content-Type': 'application/json' });
-  res.end(JSON.stringify(list));
+async function listAppointments(req, res) {
+  const zaloId = req.params.zalo_id;
+  try {
+    const list = await Appointment.find({ zalo_id: zaloId }).lean();
+    res.json(list);
+  } catch (err) {
+    res.status(500).send('Server error');
+  }
 }
 
 module.exports = { createAppointment, listAppointments };

@@ -1,27 +1,17 @@
-const { readData, writeData } = require('../utils/storage');
+const mongoose = require('mongoose');
 
-const FILE = 'appointments.json';
+const appointmentSchema = new mongoose.Schema({
+  zalo_id: { type: String, required: true },
+  doctor_name: String,
+  service: String,
+  appointment_time: { type: Date, required: true },
+  note: String
+});
 
-function getByZaloId(zaloId) {
-  const data = readData(FILE);
-  return data.filter(a => a.zalo_id === zaloId);
-}
+appointmentSchema.statics.upcomingWithin = function(minutes) {
+  const now = new Date();
+  const end = new Date(now.getTime() + minutes * 60000);
+  return this.find({ appointment_time: { $gte: now, $lte: end } });
+};
 
-function create(appt) {
-  const data = readData(FILE);
-  data.push(appt);
-  writeData(FILE, data);
-  return appt;
-}
-
-function upcomingWithin(minutes) {
-  const data = readData(FILE);
-  const now = Date.now();
-  const end = now + minutes * 60 * 1000;
-  return data.filter(a => {
-    const t = new Date(a.appointment_time).getTime();
-    return t >= now && t <= end;
-  });
-}
-
-module.exports = { getByZaloId, create, upcomingWithin };
+module.exports = mongoose.model('Appointment', appointmentSchema);
