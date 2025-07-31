@@ -1,35 +1,25 @@
 const Appointment = require('../models/appointment');
 
-async function createAppointment(req, res, body) {
-  let apptData;
-  try {
-    apptData = JSON.parse(body || '{}');
-  } catch (err) {
-    res.writeHead(400);
-    return res.end('Invalid JSON');
-  }
+async function createAppointment(req, res) {
+  const apptData = req.body || {};
   if (!apptData.zalo_id || !apptData.appointment_time) {
-    res.writeHead(400);
-    return res.end('Missing fields');
+    return res.status(400).send('Missing fields');
   }
   try {
     const appt = await Appointment.create(apptData);
-    res.writeHead(201, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify(appt));
+    res.status(201).json(appt);
   } catch (err) {
-    res.writeHead(500);
-    res.end('Server error');
+    res.status(500).send('Server error');
   }
 }
 
-async function listAppointments(req, res, zaloId) {
+async function listAppointments(req, res) {
+  const zaloId = req.params.zalo_id;
   try {
     const list = await Appointment.find({ zalo_id: zaloId }).lean();
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify(list));
+    res.json(list);
   } catch (err) {
-    res.writeHead(500);
-    res.end('Server error');
+    res.status(500).send('Server error');
   }
 }
 

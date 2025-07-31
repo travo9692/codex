@@ -1,39 +1,28 @@
 const Patient = require('../models/patient');
 
-async function createPatient(req, res, body) {
-  let patientData;
-  try {
-    patientData = JSON.parse(body || '{}');
-  } catch (err) {
-    res.writeHead(400);
-    return res.end('Invalid JSON');
-  }
+async function createPatient(req, res) {
+  const patientData = req.body || {};
   if (!patientData.zalo_id) {
-    res.writeHead(400);
-    return res.end('Missing zalo_id');
+    return res.status(400).send('Missing zalo_id');
   }
   try {
     const patient = await Patient.create(patientData);
-    res.writeHead(201, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify(patient));
+    res.status(201).json(patient);
   } catch (err) {
-    res.writeHead(500);
-    res.end('Server error');
+    res.status(500).send('Server error');
   }
 }
 
-async function getPatient(req, res, zaloId) {
+async function getPatient(req, res) {
+  const zaloId = req.params.zalo_id;
   try {
     const patient = await Patient.findOne({ zalo_id: zaloId }).lean();
     if (!patient) {
-      res.writeHead(404);
-      return res.end('Not found');
+      return res.status(404).send('Not found');
     }
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify(patient));
+    res.json(patient);
   } catch (err) {
-    res.writeHead(500);
-    res.end('Server error');
+    res.status(500).send('Server error');
   }
 }
 

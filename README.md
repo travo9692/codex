@@ -3,7 +3,7 @@
 Demo ứng dụng đặt lịch khám bệnh và chăm sóc khách hàng qua Zalo Mini App.
 
 ## 📦 Tech stack
- - ⚙️ Backend: Node.js (native HTTP server) + MongoDB (Mongoose)
+ - ⚙️ Backend: ExpressJS + MongoDB (Mongoose)
 - 💻 Frontend: React + Vite (Zalo Mini App SDK)
 - 🔔 Scheduler + ZNS API: Nhắc lịch tự động qua Zalo
 
@@ -13,7 +13,7 @@ Demo ứng dụng đặt lịch khám bệnh và chăm sóc khách hàng qua Zal
 
 ```
 .
-├── backend/                # Node.js API
+├── backend/                # ExpressJS API
 │   ├── src/
 │   │   ├── controllers/    # API logic
 │   │   ├── models/         # Mongoose schemas
@@ -44,7 +44,7 @@ cd zalo-miniapp-healthcare
 cd backend
 cp .env.example .env
 npm install
-node src/app.js
+npm start
 ```
 
 ### 3. Cài đặt frontend
